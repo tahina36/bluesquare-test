@@ -47,4 +47,16 @@ class GroupRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllGroupsForUserId($userId, $onlyQuery = false)
+    {
+        $query = $this->createQueryBuilder('u')
+            ->join('u.users', 'ug')
+            ->where('ug.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery();
+        if ($onlyQuery) {
+            return $query;
+        }
+        return $query->getResult();
+    }
 }

@@ -20,3 +20,6 @@ security:
             logout:
                 path: app_logout
                 target: /
+    access_control:
+     - { path: ^/admin, roles: ROLE_USER }
+    # - { path: ^/profile, roles: ROLE_USER }

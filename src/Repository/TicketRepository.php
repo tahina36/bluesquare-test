@@ -47,4 +47,17 @@ class TicketRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllTickets($projectId, $onlyQuery = false)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->join('t.project', 'p')
+            ->where('p.id = :id')
+            ->setParameter('id', $projectId)
+            ->getQuery();
+        if ($onlyQuery) {
+            return $query;
+        }
+        return $query->getResult();
+    }
+
 }

@@ -47,4 +47,13 @@ class UserGroupRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllGroups($onlyQuery = false)
+    {
+        $query = $this->createQueryBuilder('u')
+            ->getQuery();
+        if ($onlyQuery) {
+            return $query;
+        }
+        return $query->getResult();
+    }
 }

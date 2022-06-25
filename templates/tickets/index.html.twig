@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="{{ path('app_create_ticket', {'projectId': projectId}) }}">Creer un nouveau ticket</a>
+    </div>
+    {% for ticket in tickets %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ ticket.title }}</h5>
+                <p class="card-text">Ce ticket contient evenements</p>
+                <p class="card-text"><a href="{{ path('show_ticket', {'id': ticket.id}) }}" class="btn btn-sm btn-outline-info">Voir les détails du ticket</a></p>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="navigation">
+        {{ knp_pagination_render(tickets) }}
+    </div>
+{% endblock %}

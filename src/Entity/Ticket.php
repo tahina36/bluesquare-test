@@ -43,6 +43,11 @@ class Ticket
     private $user;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="tickets")
+     */
+    private $project;
+
+    /**
      * @ORM\OneToMany(targetEntity=Event::class, cascade={"persist", "remove"}, mappedBy="ticket")
      */
     private $events;
@@ -114,5 +119,37 @@ class Ticket
     public function setUser($user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * @param mixed $project
+     */
+    public function setProject($project): void
+    {
+        $this->project = $project;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @param mixed $events
+     */
+    public function setEvents($events): void
+    {
+        $this->events = $events;
     }
 }

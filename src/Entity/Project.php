@@ -27,6 +27,11 @@ class Project
      */
     private $permissions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Ticket::class, cascade={"persist", "remove"}, mappedBy="project")
+     */
+    private $tickets;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -58,5 +63,21 @@ class Project
     public function setPermissions($permissions): void
     {
         $this->permissions = $permissions;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+
+    /**
+     * @param mixed $tickets
+     */
+    public function setTickets($tickets): void
+    {
+        $this->tickets = $tickets;
     }
 }

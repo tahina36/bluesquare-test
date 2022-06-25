@@ -12,3 +12,28 @@ registration:
     path: /registration
     controller: App\Controller\RegistrationController::index
     methods: ['GET', 'POST']
+
+app_list_project:
+    path: /admin/projects
+    controller: App\Controller\ProjectController::listProjects
+    methods: ['GET', 'POST']
+
+app_create_project:
+    path: /admin/projects/create
+    controller: App\Controller\ProjectController::createProject
+    methods: ['GET', 'POST']
+
+edit_project:
+    path: /admin/projects/edit/{id}
+    controller: App\Controller\ProjectController::createProject
+    methods: ['GET', 'POST']
+
+app_list_ticket:
+    path: /admin/projects/{projectId}/tickets
+    controller: App\Controller\TicketController::listTickets
+    methods: ['GET', 'POST']
+
+app_create_ticket:
+    path: /admin/projects/{projectId}/tickets/create
+    controller: App\Controller\TicketController::createTicket
+    methods: ['GET', 'POST']

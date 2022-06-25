@@ -8,6 +8,7 @@ use App\Entity\Project;
 use App\Entity\Trip;
 use App\Entity\TripStep;
 use App\Entity\User;
+use App\Entity\UserGroup;
 use App\Service\Helper;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -84,6 +85,13 @@ class UserFixture extends Fixture
             $user->setEmail($userDatas["email"]);
             $user->setRoles(['ROLE_USER']);
             $user->setPassword(password_hash($userDatas["password"], PASSWORD_DEFAULT));
+            foreach ($userDatas["groups"] as $group) {
+                $userGroup = new UserGroup();
+                $group = $manager->getRepository(Group::class)->findOneBy(["name" => $group]);
+                $userGroup->setGroup($group);
+                $userGroup->setUser($user);
+                $manager->persist($userGroup);
+            }
             $manager->persist($user);
         }
         $manager->flush();

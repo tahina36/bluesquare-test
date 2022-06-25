@@ -47,4 +47,18 @@ class ProjectRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllProjects($userId, $onlyQuery = false)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->join('p.permissions', 'gp')
+            ->join('gp.group', 'g')
+            ->join('g.users', 'ug')
+            ->where('ug.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery();
+        if ($onlyQuery) {
+            return $query;
+        }
+        return $query->getResult();
+    }
 }
