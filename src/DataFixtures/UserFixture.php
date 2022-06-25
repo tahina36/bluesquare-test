@@ -71,6 +71,9 @@ class UserFixture extends Fixture
             [
                 "name" => "status_updated",
             ],
+            [
+                "name" => "priority_updated",
+            ],
         ] ;
 
 

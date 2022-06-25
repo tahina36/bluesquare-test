@@ -43,7 +43,7 @@ class TicketController extends AbstractController
 
     public function createTicket(Request $request, $projectId) {
         $ticket = new Ticket();
-        $ticketForm = $this->createForm(TicketType::class, $ticket, ['action' => $this->generateUrl('app_create_ticket', ['projectId' => $projectId] ), 'method' => 'post', 'user' => $this->getUser()]);
+        $ticketForm = $this->createForm(TicketType::class, $ticket, ['action' => $this->generateUrl('app_create_ticket', ['projectId' => $projectId] ), 'method' => 'post', 'user' => $this->getUser(), 'edit' => false]);
         $ticketForm->handleRequest($request);
 
         if ($ticketForm->isSubmitted()){
@@ -72,6 +72,27 @@ class TicketController extends AbstractController
         if (!$ticket) {
             throw new NotFoundHttpException("ticket not found");
         }
+        $oldValuesTicket = clone $ticket;
+        $ticketForm = $this->createForm(TicketType::class, $ticket, ['action' => $this->generateUrl('app_detail_ticket', ['projectId' => $projectId, 'ticketId' => $ticketId] ), 'method' => 'post', 'user' => $this->getUser(), 'edit' => true]);
+        $ticketForm->handleRequest($request);
+        if ($ticketForm->isSubmitted()){
+            if ($ticketForm->isValid()) {
+                $this->ticketProcess->process($ticket, $this->getUser(), "edit", ["oldTicket" => $oldValuesTicket]);
+                if ($this->ticketProcess->isHasError()) {
+                    foreach ($this->ticketProcess->getMessages() as $msg) {
+                        $this->addFlash('danger', $msg);
+                    }
+                }
+                else {
+                    $this->addFlash('success', 'Ticket mis à jour avec succès');
+                    return $this->redirectToRoute('app_detail_ticket', ['projectId' => $projectId, 'ticketId' => $ticketId] );
+                }
+            }
+            else {
+                $this->addFlash('danger', 'Nous avons rencontré un soucis durant la mis à jour de votre ticket.');
+            }
+        }
+
         $commentForm = $this->createForm(CommentType::class, $comment, ['action' => $this->generateUrl('app_detail_ticket', ['projectId' => $projectId, 'ticketId' => $ticketId] ), 'method' => 'post']);
         $commentForm->handleRequest($request);
         if ($commentForm->isSubmitted()){
@@ -95,6 +116,7 @@ class TicketController extends AbstractController
         return new Response($this->renderView('tickets/detail_ticket.html.twig', [
             'ticket' => $ticket,
             'projectId' => $projectId,
+            'ticketForm' => $ticketForm->createView(),
             'commentForm' => $commentForm->createView()
         ]));
     }

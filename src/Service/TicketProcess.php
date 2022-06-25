@@ -30,7 +30,7 @@ class TicketProcess
     }
 
 
-    public function process(Ticket $ticket, User $user, $event, $params) {
+    public function process(Ticket $ticket, User $user, $event, $params = []) {
         switch ($event) {
             case "ticket_creation":
                 $this->create($ticket, $user, $event);
@@ -40,7 +40,8 @@ class TicketProcess
                 break;
             case "file_upload":
                 break;
-            case "status_updated":
+            case "edit":
+                $this->processEdit($params["oldTicket"], $ticket, $user, $event);
                 break;
         }
     }
@@ -97,5 +98,32 @@ class TicketProcess
         else {
             $this->messages[] = "Erreur lors du chargement des types d'evenement";
         }
+    }
+
+    private function processEdit(Ticket $oldTicket, Ticket $ticket, User $user, $event)
+    {
+        if ($oldTicket->getStatus() != $ticket->getStatus()) {
+            $eventType = $this->eventTypeRepository->findOneBy(["name" => "status_updated"]);
+            if ($eventType) {
+                $event = new Event();
+                $event->setUser($user);
+                $event->setCreatedAt(new \DateTimeImmutable());
+                $event->setTicket($ticket);
+                $event->setEventType($eventType);
+                $this->eventRepository->save($event, true);
+            }
+        }
+        if ($oldTicket->getPriority() != $ticket->getPriority()) {
+            $eventType = $this->eventTypeRepository->findOneBy(["name" => "priority_updated"]);
+            if ($eventType) {
+                $eventTwo = new Event();
+                $eventTwo->setUser($user);
+                $eventTwo->setCreatedAt(new \DateTimeImmutable());
+                $eventTwo->setTicket($ticket);
+                $eventTwo->setEventType($eventType);
+                $this->eventRepository->save($eventTwo, true);
+            }
+        }
+        $this->ticketRepository->save($ticket);
     }
 }

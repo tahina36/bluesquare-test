@@ -26,7 +26,9 @@
                                         {% elseif  event.eventType.name == "file_upload" %}
                                             uploadé
                                         {% elseif  event.eventType.name == "status_updated" %}
-                                            modifier le statut du ticket
+                                            modifier le statut du ticket à {% if event.ticket.status == 1 %}Ouvert{% elseif event.ticket.status == 2 %}En attente du client{% else %}Tests client{% endif %}
+                                        {% elseif  event.eventType.name == "priority_updated" %}
+                                            modifier la priorité à {% if event.ticket.priority == 1 %}Faible{% elseif event.ticket.priority == 2 %}Moyenne{% else %}Haute{% endif %}
                                         {% endif%}
                                     </h5>
                                     {% if  event.eventType.name == "new_comment" %}
@@ -60,14 +62,34 @@
         </div>
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    {{ ticket.title }}
+                {{ form_start(ticketForm) }}
+                <div>
+                    <div class="form-control">
+                        <i class="fa fa-calendar"></i> {{ ticket.title}}
+                    </div>
+                    <div class="form-control">
+                        <i class="fa fa-calendar"></i> {{ form_label(ticketForm.priority) }}
+                        {{ form_widget(ticketForm.priority) }}
+                        <small>{{ form_help(ticketForm.priority) }}</small>
+                        <div class="form-error">
+                            {{ form_errors(ticketForm.priority) }}
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        <i class="fa fa-calendar"></i> {{ form_label(ticketForm.status) }}
+                        {{ form_widget(ticketForm.status) }}
+                        <small>{{ form_help(ticketForm.status) }}</small>
+                        <div class="form-error">
+                            {{ form_errors(ticketForm.status) }}
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        {{ ticket.content|raw }}
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">Par {{ ticket.user.firstname }}</h5>
-                    <p class="card-text">{{ ticket.content|raw }}</p>
-                    <a href="#" class="btn btn-primary">Le {{ ticket.createdAt|date('d-m-Y H:i') }}</a>
-                </div>
+                <input type="submit" value="Modifier le ticket" class="btn btn-success btn-default"/>
+                {{ form_rest(ticketForm) }}
+                {{ form_end(ticketForm) }}
             </div>
         </div>
     </div>
