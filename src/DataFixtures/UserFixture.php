@@ -83,7 +83,7 @@ class UserFixture extends Fixture
             $user->setFirstname($userDatas["firstname"]);
             $user->setEmail($userDatas["email"]);
             $user->setRoles(['ROLE_USER']);
-            $user->setPassword(md5($userDatas["password"]));
+            $user->setPassword(password_hash($userDatas["password"], PASSWORD_DEFAULT));
             $manager->persist($user);
         }
         $manager->flush();
