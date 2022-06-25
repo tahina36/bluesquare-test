@@ -33,6 +33,21 @@ class Ticket
     private $updated_at;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $priority;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $type;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $content;
@@ -151,5 +166,53 @@ class Ticket
     public function setEvents($events): void
     {
         $this->events = $events;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param mixed $priority
+     */
+    public function setPriority($priority): void
+    {
+        $this->priority = $priority;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
     }
 }

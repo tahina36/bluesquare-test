@@ -23,7 +23,7 @@ class Event
     private $createdAt;
 
     /**
-     * @ORM\OneToMany (targetEntity=Comment::class, mappedBy="events")
+     * @ORM\OneToMany (targetEntity=Comment::class, mappedBy="event")
      */
     private $comment;
 
@@ -31,6 +31,11 @@ class Event
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="events")
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=EventType::class, inversedBy="events")
+     */
+    private $eventType;
 
     /**
      * @ORM\ManyToOne(targetEntity=Ticket::class, inversedBy="events")
@@ -100,5 +105,21 @@ class Event
     public function setTicket($ticket): void
     {
         $this->ticket = $ticket;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventType()
+    {
+        return $this->eventType;
+    }
+
+    /**
+     * @param mixed $eventType
+     */
+    public function setEventType($eventType): void
+    {
+        $this->eventType = $eventType;
     }
 }

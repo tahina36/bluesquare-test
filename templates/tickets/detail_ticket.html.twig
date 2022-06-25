@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ticket #{{ ticket.id}} :  {{ ticket.title }}{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1 class="display-4">{{ ticket.title }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Evenements
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for event in ticket.events %}
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start {% if loop.last %}active{% endif %}">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">
+                                        {{ event.user.firstname }} à
+                                        {% if event.eventType.name == "ticket_creation" %}
+                                            créé ce ticket
+                                        {% elseif  event.eventType.name == "new_comment" %}
+                                            posté
+                                        {% elseif  event.eventType.name == "file_upload" %}
+                                            uploadé
+                                        {% elseif  event.eventType.name == "status_updated" %}
+                                            modifier le statut du ticket
+                                        {% endif%}
+                                    </h5>
+                                    {% if  event.eventType.name == "new_comment" %}
+                                        <div>
+                                            {{ event.comment[0].content|raw }}
+                                        </div>
+                                    {% endif %}
+                                <small class="text-muted">{{ event.createdAt|date('d-m-Y H:i') }}</small>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-2">
+                {{ form_start(commentForm) }}
+                <div>
+                    <div class="form-control">
+                        <i class="fa fa-calendar"></i> {{ form_label(commentForm.content) }}
+                        {{ form_widget(commentForm.content) }}
+                        <small>{{ form_help(commentForm.content) }}</small>
+                        <div class="form-error">
+                            {{ form_errors(commentForm.content) }}
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Poster le commentaire" class="btn btn-success btn-default"/>
+                {{ form_rest(commentForm) }}
+                {{ form_end(commentForm) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    {{ ticket.title }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Par {{ ticket.user.firstname }}</h5>
+                    <p class="card-text">{{ ticket.content|raw }}</p>
+                    <a href="#" class="btn btn-primary">Le {{ ticket.createdAt|date('d-m-Y H:i') }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

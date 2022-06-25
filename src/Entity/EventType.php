@@ -22,6 +22,11 @@ class EventType
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany (targetEntity=Event::class, mappedBy="eventType")
+     */
+    private $events;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,5 +42,21 @@ class EventType
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @param mixed $events
+     */
+    public function setEvents($events): void
+    {
+        $this->events = $events;
     }
 }

@@ -22,6 +22,30 @@
             </div>
         </div>
         <div class="form-control">
+            <i class="fa fa-calendar"></i> {{ form_label(ticketForm.type) }}
+            {{ form_widget(ticketForm.type) }}
+            <small>{{ form_help(ticketForm.type) }}</small>
+            <div class="form-error">
+                {{ form_errors(ticketForm.type) }}
+            </div>
+        </div>
+        <div class="form-control">
+            <i class="fa fa-calendar"></i> {{ form_label(ticketForm.priority) }}
+            {{ form_widget(ticketForm.priority) }}
+            <small>{{ form_help(ticketForm.priority) }}</small>
+            <div class="form-error">
+                {{ form_errors(ticketForm.priority) }}
+            </div>
+        </div>
+        <div class="form-control">
+            <i class="fa fa-calendar"></i> {{ form_label(ticketForm.status) }}
+            {{ form_widget(ticketForm.status) }}
+            <small>{{ form_help(ticketForm.status) }}</small>
+            <div class="form-error">
+                {{ form_errors(ticketForm.status) }}
+            </div>
+        </div>
+        <div class="form-control">
             <i class="fa fa-calendar"></i> {{ form_label(ticketForm.content) }}
             {{ form_widget(ticketForm.content) }}
             <small>{{ form_help(ticketForm.content) }}</small>

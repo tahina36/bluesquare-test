@@ -40,4 +40,20 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
+    public function getTicketWithId($userID, $projectId, $ticketId)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->join('t.project', 'p')
+            ->join('p.permissions', 'perm')
+            ->join('perm.group', 'gp')
+            ->join('gp.users', 'u')
+            ->where('u.user = :userId')
+            ->andwhere('p.id = :projectId')
+            ->andwhere('t.id = :ticketId')
+            ->setParameters(['userId' => $userID, 'projectId' => $projectId, 'ticketId' => $ticketId])
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
 }

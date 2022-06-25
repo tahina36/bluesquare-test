@@ -37,3 +37,8 @@ app_create_ticket:
     path: /admin/projects/{projectId}/tickets/create
     controller: App\Controller\TicketController::createTicket
     methods: ['GET', 'POST']
+
+app_detail_ticket:
+    path: /admin/projects/{projectId}/tickets/{ticketId}
+    controller: App\Controller\TicketController::detailTicket
+    methods: ['GET', 'POST']

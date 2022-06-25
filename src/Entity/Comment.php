@@ -28,6 +28,11 @@ class Comment
     private $user;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="comment")
+     */
+    private $event;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private $createdAt;
@@ -75,5 +80,21 @@ class Comment
     public function setUser($user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param mixed $event
+     */
+    public function setEvent($event): void
+    {
+        $this->event = $event;
     }
 }
