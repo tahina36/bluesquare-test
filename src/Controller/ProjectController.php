@@ -23,7 +23,7 @@ class ProjectController extends AbstractController
 
     public function listProjects(Request $request) {
         $pagination = $this->paginator->paginate(
-            $this->projectRepository->findAllProjects($this->getUser()->getId(), false),
+            $this->projectRepository->findAllProjects($this->getUser()->getId(), true),
             $request->query->getInt('page', 1),
             10
         );

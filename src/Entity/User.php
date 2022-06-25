@@ -44,6 +44,10 @@ class User implements UserInterface
      */
     private $comments;
     /**
+     * @ORM\OneToMany(targetEntity=Event::class, cascade={"persist", "remove"}, mappedBy="user")
+     */
+    private $events;
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -185,5 +189,21 @@ class User implements UserInterface
     public function setComments($comments): void
     {
         $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @param mixed $events
+     */
+    public function setEvents($events): void
+    {
+        $this->events = $events;
     }
 }

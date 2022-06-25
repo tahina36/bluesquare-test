@@ -19,34 +19,6 @@ class TicketRepository extends ServiceEntityRepository
         parent::__construct($registry, Ticket::class);
     }
 
-    // /**
-    //  * @return Ticket[] Returns an array of Ticket objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Ticket
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
     public function findAllTickets($projectId, $onlyQuery = false)
     {
         $query = $this->createQueryBuilder('t')
@@ -58,6 +30,14 @@ class TicketRepository extends ServiceEntityRepository
             return $query;
         }
         return $query->getResult();
+    }
+
+    public function save(Ticket $ticket,$doNotFlush = false)
+    {
+        $this->_em->persist($ticket);
+        if (!$doNotFlush) {
+            $this->_em->flush();
+        }
     }
 
 }

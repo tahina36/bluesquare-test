@@ -19,32 +19,11 @@ class EventTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, EventType::class);
     }
 
-    // /**
-    //  * @return EventType[] Returns an array of EventType objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function save(EventType $eventType,$doNotFlush = false)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $this->_em->persist($eventType);
+        if (!$doNotFlush) {
+            $this->_em->flush();
+        }
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?EventType
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\EventType;
 use App\Entity\Group;
 use App\Entity\GroupPermission;
 use App\Entity\Project;
@@ -57,6 +58,28 @@ class UserFixture extends Fixture
             ],
         ];
 
+        $eventTypes = [
+            [
+                "name" => "ticket_creation",
+            ],
+            [
+                "name" => "new_comment",
+            ],
+            [
+                "name" => "file_upload",
+            ],
+            [
+                "name" => "status_updated",
+            ],
+        ] ;
+
+
+
+        foreach ($eventTypes as $eventTypeDatas) {
+            $eventType = new EventType();
+            $eventType->setName($eventTypeDatas["name"]);
+            $manager->persist($eventType);
+        }
 
 
         foreach ($groups as $groupsDatas) {

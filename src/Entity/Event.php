@@ -23,12 +23,12 @@ class Event
     private $createdAt;
 
     /**
-     * @ORM\OneToOne(targetEntity=Comment::class)
+     * @ORM\OneToMany (targetEntity=Comment::class, mappedBy="events")
      */
     private $comment;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="events")
      */
     private $user;
 

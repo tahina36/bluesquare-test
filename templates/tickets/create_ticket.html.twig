@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouveau ticket{% endblock %}
+
+{% block body %}
+    {{ form_start(ticketForm) }}
+    <div>
+        <div class="form-control">
+            <i class="fa fa-calendar"></i> {{ form_label(ticketForm.title) }}
+            {{ form_widget(ticketForm.title) }}
+            <small>{{ form_help(ticketForm.title) }}</small>
+            <div class="form-error">
+                {{ form_errors(ticketForm.title) }}
+            </div>
+        </div>
+        <div class="form-control">
+            <i class="fa fa-calendar"></i> {{ form_label(ticketForm.project) }}
+            {{ form_widget(ticketForm.project) }}
+            <small>{{ form_help(ticketForm.project) }}</small>
+            <div class="form-error">
+                {{ form_errors(ticketForm.project) }}
+            </div>
+        </div>
+        <div class="form-control">
+            <i class="fa fa-calendar"></i> {{ form_label(ticketForm.content) }}
+            {{ form_widget(ticketForm.content) }}
+            <small>{{ form_help(ticketForm.content) }}</small>
+            <div class="form-error">
+                {{ form_errors(ticketForm.content) }}
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Enregistrer le ticket" class="btn btn-success btn-default"/>
+    {{ form_rest(ticketForm) }}
+    {{ form_end(ticketForm) }}
+{% endblock %}
