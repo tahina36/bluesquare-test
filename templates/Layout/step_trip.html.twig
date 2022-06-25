@@ -1,0 +1,30 @@
+<div class="card text-white bg-secondary mb-3">
+    <div class="card-header">Etape {{ index }}</div>
+    <div class="card-body">
+        <div>
+            <ul>
+                <li>Départ : {{ step.departure }}</li>
+                <li>Arrivée : {{ step.arrival }}</li>
+                <li>Mode de transport : {% if step.vehicule.type == 'plane'%}Avion{% elseif step.vehicule.type == 'train' %}Train{% elseif step.vehicule.type == 'bus' %}Bus{% endif %}</li>
+                {% if step.vehicule.number is defined and step.vehicule.number is not null %}
+                    <li>Numéro de reservation : {{ step.vehicule.number }}</li>
+                {% endif %}
+                {% if step.vehicule.seat is defined and step.vehicule.seat is not null %}
+                    <li>Siège : {{ step.vehicule.seat }}</li>
+                {% endif %}
+                {% if step.vehicule.gate is defined and step.vehicule.gate is not null %}
+                    <li>Terminal : {{ step.vehicule.gate }}</li>
+                {% endif %}
+                {% if step.vehicule.bagageDrop is defined and step.vehicule.bagageDrop is not null %}
+                    <li>Nombre de babages : {{ step.vehicule.bagageDrop }}</li>
+                {% endif %}
+                {% if step.departureDate is defined and step.departureDate is not null %}
+                    <li>Date de déprt : {{ step.departureDate|date('d-m-Y') }}</li>
+                {% endif %}
+                {% if step.arrivalDate is defined and step.arrivalDate is not null %}
+                    <li>Date de départ : {{ step.arrivalDate|date('d-m-Y') }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

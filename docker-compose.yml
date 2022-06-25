@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb:latest # The image from Docker Hub
+    container_name: myapp_db
+    environment: # This is my settings, change them as you prefer
+      MYSQL_ROOT_PASSWORD: blue_root_pwd
+      MYSQL_DATABASE: blue_db
+      MYSQL_USER: blue_user
+      MYSQL_PASSWORD: mynotsosafepwd
+    networks:  # Allows to communicate with other services with the same network
+      - myapp
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: myapp_phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: blue_root_pwd
+    networks:
+      - myapp
+  php:
+    container_name: myapp_php
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile-php
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
+    volumes:
+      - ./:/var/www/symfony
+    networks:
+      - myapp
+  nginx:
+    container_name: myapp_nginx
+    depends_on:
+      - php # We need to load PHP for the Nginx configuration file
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - 8000:80 # Redirect Docker port 80 to localhost port 8000. So you'll access to Nginx with localhost:8000
+      - 8443:443 # Same for HTTPS
+    networks:
+      - myapp
+networks:
+  myapp:

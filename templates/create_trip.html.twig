@@ -1,0 +1,71 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}Créer un itinéraire de voyage{% endblock %}
+{% block page_title %}Créer un itinéraire de voyage{% endblock %}
+
+{% block content %}
+    {{ form_start(tripForm) }}
+    <div>
+        <div class="form-control">
+            <i class="fa fa-calendar"></i> {{ form_label(tripForm.name) }}
+            {{ form_widget(tripForm.name) }}
+            <small>{{ form_help(tripForm.name) }}</small>
+            <div class="form-error">
+                {{ form_errors(tripForm.name) }}
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3>Etapes</h3>
+        <div class="steps"
+             data-index="{{ tripForm.steps|length > 0 ? tripForm.steps|last.vars.name + 1 : 0 }}"
+             data-prototype="{% filter escape %}
+                        {{ include('Form/step_trip_form.html.twig', { 'form': tripForm.steps.vars.prototype }) }}
+                    {% endfilter %}"
+        >
+            {% for step in tripForm.steps %}
+                <div class="step-trip">
+                    {{ include('Form/step_trip_form.html.twig', {'form': step, 'index': loop.index}) }}
+                </div>
+            {% endfor %}
+            <button type="button" class="add_item_link btn-sm btn-info m-2" data-collection-holder-class="steps">Ajouter une etape</button>
+        </div>
+    </div>
+    <input type="submit" value="Enregistrer le voyage" class="btn btn-success btn-default"/>
+    {{ form_rest(tripForm) }}
+    {{ form_end(tripForm) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function toggle_vehicule_form(element) {
+            var container = element.parentNode.parentNode.parentNode.parentNode;
+            if (element.value == 'plane') {
+                container.querySelector('#planeOnly').classList.remove("visually-hidden");
+            }
+            else {
+                container.querySelector('#planeOnly').classList.add("visually-hidden");
+            }
+        }
+        const addFormToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+            const item = document.createElement('div');
+            var stepNumber = collectionHolder.dataset.index;
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                ).replace(/__step__number__/g,
+                    ++stepNumber);
+            collectionHolder.insertBefore(item, collectionHolder.lastElementChild);
+            collectionHolder.dataset.index++;
+        };
+        document
+            .querySelectorAll('.add_item_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addFormToCollection)
+            });
+    </script>
+{% endblock %}
