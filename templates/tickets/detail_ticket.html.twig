@@ -26,9 +26,9 @@
                                         {% elseif  event.eventType.name == "file_upload" %}
                                             uploadé
                                         {% elseif  event.eventType.name == "status_updated" %}
-                                            modifier le statut du ticket à {% if event.ticket.status == 1 %}Ouvert{% elseif event.ticket.status == 2 %}En attente du client{% else %}Tests client{% endif %}
+                                            modifier le statut du ticket à {{ event.value }}
                                         {% elseif  event.eventType.name == "priority_updated" %}
-                                            modifier la priorité à {% if event.ticket.priority == 1 %}Faible{% elseif event.ticket.priority == 2 %}Moyenne{% else %}Haute{% endif %}
+                                            modifier la priorité à {{ event.value }}
                                         {% endif%}
                                     </h5>
                                     {% if  event.eventType.name == "new_comment" %}

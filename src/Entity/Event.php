@@ -23,6 +23,11 @@ class Event
     private $createdAt;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $value;
+
+    /**
      * @ORM\OneToMany (targetEntity=Comment::class, mappedBy="event")
      */
     private $comment;
@@ -121,5 +126,21 @@ class Event
     public function setEventType($eventType): void
     {
         $this->eventType = $eventType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function setValue($value): void
+    {
+        $this->value = $value;
     }
 }

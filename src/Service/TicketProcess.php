@@ -109,6 +109,16 @@ class TicketProcess
                 $event->setUser($user);
                 $event->setCreatedAt(new \DateTimeImmutable());
                 $event->setTicket($ticket);
+                if ($ticket->getStatus() == 1) {
+                    $value = "Ouvert";
+                }
+                elseif ($ticket->getStatus() == 2) {
+                    $value = "En attente du client";
+                }
+                else {
+                    $value = "Tests client";
+                }
+                $event->setValue($value);
                 $event->setEventType($eventType);
                 $this->eventRepository->save($event, true);
             }
@@ -121,6 +131,16 @@ class TicketProcess
                 $eventTwo->setCreatedAt(new \DateTimeImmutable());
                 $eventTwo->setTicket($ticket);
                 $eventTwo->setEventType($eventType);
+                if ($ticket->getPriority() == 1) {
+                    $value = "Faible";
+                }
+                elseif ($ticket->getPriority() == 2) {
+                    $value = "Moyenne";
+                }
+                else {
+                    $value = "Haute";
+                }
+                $eventTwo->setValue($value);
                 $this->eventRepository->save($eventTwo, true);
             }
         }
